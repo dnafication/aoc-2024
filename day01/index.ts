@@ -4,7 +4,8 @@
 
 async function main() {
   try {
-    const data = await Deno.readTextFile("day01/input.txt");
+    const __dirname = new URL(".", import.meta.url).pathname;
+    const data = await Deno.readTextFile(__dirname + "/input.txt");
     const locIdsString = data.split("\n");
     const group1 = [];
     const group2 = [];

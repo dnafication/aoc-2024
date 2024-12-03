@@ -4,16 +4,22 @@
 
 async function main() {
   try {
-    const data = await Deno.readTextFile("day02/input.txt");
+    const __dirname = new URL(".", import.meta.url).pathname;
+    const data = await Deno.readTextFile(__dirname + "/input.txt");
 
-    const levels = data.split("\n").map((level) => level.trim().split(" ").map((num) => parseInt(num)));
+    const levels = data.split("\n").map((level) =>
+      level.trim().split(" ").map((num) => parseInt(num))
+    );
     console.log(levels);
-    const countOfSafeLevels = levels.filter((level) => areLevelsSafe(level)).length;
+    const countOfSafeLevels = levels.filter((level) =>
+      areLevelsSafe(level)
+    ).length;
     console.log("Part 1:", countOfSafeLevels);
 
-    const countOfSafeLevelsV2 = levels.filter((level) => areLevelsSafeV2(level)).length;
+    const countOfSafeLevelsV2 = levels.filter((level) =>
+      areLevelsSafeV2(level)
+    ).length;
     console.log("Part 2:", countOfSafeLevelsV2);
-
   } catch (error) {
     console.error(error);
   }
@@ -49,7 +55,5 @@ function areLevelsSafeV2(levels: number[]): boolean {
 
   return false;
 }
-
-
 
 main();
