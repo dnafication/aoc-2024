@@ -2,7 +2,8 @@
 
 ## Usage
 
-Put the input in a file called `input.txt` in the folder of the day you want to run and then run the following command:
+Put the input in a file called `input.txt` in the folder of the day you want to
+run and then run the following command:
 
 ```
 deno run day<number>/index.ts
