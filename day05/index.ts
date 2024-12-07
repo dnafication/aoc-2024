@@ -11,13 +11,16 @@ async function main() {
     const rulesData = await Deno.readTextFile(__dirname + "/rules.txt");
 
     const printOrders = data.split("\n");
-    console.log('Total Orders:', printOrders.length);
+    console.log("Total Orders:", printOrders.length);
     const rules = rulesData.split("\n");
 
     const rulesCache = createRulesCache(printOrders, rules);
-    const [validOrders, invalidOrders] = getValidOrders(printOrders, rulesCache);
-    console.log('Valid Orders:', validOrders.length);
-    console.log('Invalid Orders:', invalidOrders.length);
+    const [validOrders, invalidOrders] = getValidOrders(
+      printOrders,
+      rulesCache,
+    );
+    console.log("Valid Orders:", validOrders.length);
+    console.log("Invalid Orders:", invalidOrders.length);
 
     const sumOfTheMiddleOfTheValidOrders = validOrders.reduce((acc, order) => {
       const items = order.split(",");
@@ -25,26 +28,31 @@ async function main() {
       return acc + parseInt(items[middleIndex]);
     }, 0);
 
-    console.log('Part 1', sumOfTheMiddleOfTheValidOrders);
+    console.log("Part 1", sumOfTheMiddleOfTheValidOrders);
 
     const fixedInvalidOrders = invalidOrders.map((order) => {
       return sortPrintOrder(order, rulesCache);
-    })
+    });
 
-    const sumOfTheMiddleOfTheInvalidOrders = fixedInvalidOrders.reduce((acc, order) => {
-      const items = order.split(",");
-      const middleIndex = Math.floor(items.length / 2);
-      return acc + parseInt(items[middleIndex]);
-    }, 0);
+    const sumOfTheMiddleOfTheInvalidOrders = fixedInvalidOrders.reduce(
+      (acc, order) => {
+        const items = order.split(",");
+        const middleIndex = Math.floor(items.length / 2);
+        return acc + parseInt(items[middleIndex]);
+      },
+      0,
+    );
 
-    console.log('Part 2', sumOfTheMiddleOfTheInvalidOrders);
-
+    console.log("Part 2", sumOfTheMiddleOfTheInvalidOrders);
   } catch (error) {
     console.error(error);
   }
 }
 
-export function createRulesCache(printOrders: string[], rules: string[]): Map<string, string[]> {
+export function createRulesCache(
+  printOrders: string[],
+  rules: string[],
+): Map<string, string[]> {
   const rulesCache = new Map<string, string[]>();
   for (const order of printOrders) {
     const items = order.split(",");
@@ -57,7 +65,10 @@ export function createRulesCache(printOrders: string[], rules: string[]): Map<st
   return rulesCache;
 }
 
-export function getValidOrders(printOrders: string[], rulesCache: Map<string, string[]>): string[][] {
+export function getValidOrders(
+  printOrders: string[],
+  rulesCache: Map<string, string[]>,
+): string[][] {
   const validOrders: string[] = [];
   const invalidOrders: string[] = [];
   for (const order of printOrders) {
@@ -85,7 +96,10 @@ export function getValidOrders(printOrders: string[], rulesCache: Map<string, st
 }
 
 // Sort the order based on the rules
-export function sortPrintOrder(printOrder: string, rulesCache: Map<string, string[]>): string {
+export function sortPrintOrder(
+  printOrder: string,
+  rulesCache: Map<string, string[]>,
+): string {
   const items = printOrder.split(",");
   let sorted = false;
 
@@ -99,7 +113,10 @@ export function sortPrintOrder(printOrder: string, rulesCache: Map<string, strin
           const firstIndex = items.indexOf(first);
           const secondIndex = items.indexOf(second);
           if (firstIndex > secondIndex) {
-            [items[firstIndex], items[secondIndex]] = [items[secondIndex], items[firstIndex]];
+            [items[firstIndex], items[secondIndex]] = [
+              items[secondIndex],
+              items[firstIndex],
+            ];
             sorted = false;
           }
         }
