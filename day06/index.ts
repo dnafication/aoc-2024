@@ -9,38 +9,38 @@ async function main() {
     const __dirname = new URL(".", import.meta.url).pathname;
     const data = await Deno.readTextFile(__dirname + "/input.txt");
 
-    const grid = data.split("\n").map((row) => row.split(''));
+    const grid = data.split("\n").map((row) => row.split(""));
     const rows = grid.length;
     const columns = grid[0].length;
 
-    const guardSymbol = '^'
-    const objectSymbol = '#'
+    const guardSymbol = "^";
+    const objectSymbol = "#";
 
     type Coordinate = {
       x: number;
       y: number;
-    }
+    };
 
     type Direction = {
       x: number;
       y: number;
-    }
+    };
 
     const directions: Direction[] = [
       { x: 0, y: -1 }, // Up
       { x: 1, y: 0 }, // Right
       { x: 0, y: 1 }, // Down
       { x: -1, y: 0 }, // Left
-    ]
+    ];
 
     const guardPosition: Coordinate = {
       x: 0,
-      y: 0
-    }
+      y: 0,
+    };
 
     const isValidPosition = (pos: Coordinate) => {
       return pos.x >= 0 && pos.x < columns && pos.y >= 0 && pos.y < rows;
-    }
+    };
 
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
@@ -62,8 +62,8 @@ async function main() {
 
       const nextCoordinate = {
         x: guardPosition.x + directions[directionIndex].x,
-        y: guardPosition.y + directions[directionIndex].y
-      }
+        y: guardPosition.y + directions[directionIndex].y,
+      };
 
       if (!isValidPosition(nextCoordinate)) {
         break;
@@ -80,9 +80,8 @@ async function main() {
 
     // deduplicate route
     const uniqueRoute = route.filter((pos, index) => {
-      return route.findIndex(p => p.x === pos.x && p.y === pos.y) === index;
+      return route.findIndex((p) => p.x === pos.x && p.y === pos.y) === index;
     });
-
 
     console.log(`Part 1: ${uniqueRoute.length}`);
 
@@ -103,17 +102,20 @@ async function main() {
         break;
       }
     }
-    const validLocationsForObstacle = uniqueRoute.slice(1)
+    const validLocationsForObstacle = uniqueRoute.slice(1);
 
     console.log(validLocationsForObstacle);
 
     type CoordinateAndDirection = {
       position: Coordinate;
       direction: Direction;
-    }
+    };
 
-    function hasLoop(grid: string[][], obstacle: Coordinate, initialPosition: Coordinate) {
-
+    function hasLoop(
+      grid: string[][],
+      obstacle: Coordinate,
+      initialPosition: Coordinate,
+    ) {
       const route: CoordinateAndDirection[] = [];
       let guardPosition = { ...initialPosition };
       let directionIndex = 0;
@@ -121,26 +123,35 @@ async function main() {
         // grid[guardPosition.y][guardPosition.x] = 'X';
 
         const index = route.findIndex((pos) => {
-          return pos.position.x === guardPosition.x && pos.position.y === guardPosition.y && pos.direction.x === directions[directionIndex].x && pos.direction.y === directions[directionIndex].y;
-        })
+          return pos.position.x === guardPosition.x &&
+            pos.position.y === guardPosition.y &&
+            pos.direction.x === directions[directionIndex].x &&
+            pos.direction.y === directions[directionIndex].y;
+        });
 
         if (index >= 0) {
           return true;
         }
 
-        route.push({ position: { x: guardPosition.x, y: guardPosition.y }, direction: directions[directionIndex] });
+        route.push({
+          position: { x: guardPosition.x, y: guardPosition.y },
+          direction: directions[directionIndex],
+        });
 
         const nextCoordinate = {
           x: guardPosition.x + directions[directionIndex].x,
-          y: guardPosition.y + directions[directionIndex].y
-        }
+          y: guardPosition.y + directions[directionIndex].y,
+        };
 
         if (!isValidPosition(nextCoordinate)) {
           break;
         }
 
         const nextStep = grid[nextCoordinate.y][nextCoordinate.x];
-        if (nextStep === objectSymbol || (obstacle.x === nextCoordinate.x && obstacle.y === nextCoordinate.y)) {
+        if (
+          nextStep === objectSymbol ||
+          (obstacle.x === nextCoordinate.x && obstacle.y === nextCoordinate.y)
+        ) {
           directionIndex = (directionIndex + 1) % 4;
         } else {
           guardPosition.x += directions[directionIndex].x;
@@ -160,12 +171,9 @@ async function main() {
     }
 
     console.log(`Part 2: ${numberOfObstaclesCausingLoop}`);
-
-
   } catch (error) {
     console.error(error);
   }
 }
-
 
 main();
