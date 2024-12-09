@@ -8,9 +8,13 @@
       "request": "launch",
       "name": "Launch Program",
       "type": "node",
-      "program": "${workspaceFolder}/day07/index.ts",
+      "program": "${workspaceFolder}/day09/index.ts",
       "cwd": "${workspaceFolder}",
       "env": {},
+      "args": [
+        "-i",
+        "day09/small-input.txt"
+      ],
       "runtimeExecutable": "/opt/homebrew/bin/deno",
       "runtimeArgs": [
         "run",
