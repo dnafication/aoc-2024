@@ -17,11 +17,11 @@ async function main() {
 }
 
 function solvePart1(data: string) {
-  console.log("Part 1:");
+  console.log("Part 1:", data);
 }
 
 function solvePart2(data: string) {
-  console.log("Part 2:");
+  console.log("Part 2:", data);
 }
 
 main();
