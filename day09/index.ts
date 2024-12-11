@@ -78,7 +78,6 @@ function solvePart1(data: string) {
   console.log(`Part 1: ${answer}`);
 }
 
-
 /// 00...111...2...333.44.5555.6666.777.888899
 /// 00992111777.44.333....5555.6666.....8888..
 
@@ -89,12 +88,12 @@ function solvePart2(data: string) {
     if (fileMarker) {
       diskMap.push({
         files: new Array(parseInt(data[i])).fill(Math.floor(i / 2)),
-        freeSpace: 0
+        freeSpace: 0,
       });
     } else {
       diskMap.push({
         files: [],
-        freeSpace: parseInt(data[i])
+        freeSpace: parseInt(data[i]),
       });
     }
     fileMarker = !fileMarker;
@@ -137,7 +136,6 @@ function solvePart2(data: string) {
     answer += disk[i] * i;
   }
   console.log(`Part 2: ${answer}`);
-
 
   // console.log("diskMap", diskMap);
 }
