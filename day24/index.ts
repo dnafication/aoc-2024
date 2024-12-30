@@ -36,8 +36,8 @@ async function main() {
 
     // console.log(operations)
 
-    solvePart1(inputs, operations);
-    // solvePart2(data);
+    // solvePart1(inputs, operations);
+    solvePart2(inputs, operations);
   } catch (error) {
     console.error(error);
   }
@@ -88,7 +88,7 @@ function zWiresBinaryToDecimal(obj: Record<string, any>): Record<string, any> {
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key) && key.startsWith('z')) {
       binary += obj[key];
-
+      console.log(key, obj[key])
     }
   }
   const decimal = parseInt(binary, 2);
@@ -104,12 +104,34 @@ function solvePart1(inputs: Record<string, number>, operations: Operation[]) {
   }
 
   console.log(zWiresBinaryToDecimal(sortObjectKeys(inputs)))
-
   // console.log("Part 1:", inputs);
 }
 
-function solvePart2(data: string) {
+function solvePart2(inputs: Record<string, number>, operations: Operation[]) {
   console.log("Part 2:",);
+  let xBin: string = '';
+  let yBin: string = '';
+
+  const sortedKeys = Object.keys(inputs).sort().reverse();
+  for (const key of sortedKeys) {
+    if (key.startsWith('x')) {
+      xBin += inputs[key];
+    } else if (key.startsWith('y')) {
+      yBin += inputs[key];
+    }
+  }
+
+  const zFromSol1 = 51715173446832;
+  console.log("xBin:", xBin);
+  console.log("yBin:", yBin);
+  const expectedZ = parseInt(xBin, 2) + parseInt(yBin, 2)
+  console.log("expectedZ:", expectedZ);
+  console.log("expectedZBin:", expectedZ.toString(2)); // 1011110000000011011110100010110111100010110000
+  console.log("zFromSol1:", zFromSol1.toString(2));
+  // 1011110000000011011110100010110111100010110000
+  // 1011110000100011100000100010101111010010110000
+  // 101010011010010001001100001111100111111100001
+  // 110011100110001010101000000111010100011001111
 }
 
 main();
